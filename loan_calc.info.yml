@@ -1,0 +1,12 @@
+name: Loan Calculator
+description: Calculates mortage loan amortization schedule.
+
+type: module
+core: 8.x
+php: 7.0
+
+dependencies:
+  - drupal:block
+  - drupal:dblog
+
+configure: loan_calc.settings

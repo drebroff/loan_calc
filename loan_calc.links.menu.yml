@@ -1,0 +1,10 @@
+loan_calc.page:
+  title: 'Loan Calculator'
+  description: 'Loan Calculator page'
+  route_name: loan_calc.page
+  menu_name: main
+loan_calc.admin:
+  title: 'Loan Calculator settings'
+  description: 'Configure Loan Calculator default values.'
+  route_name: loan_calc.settings
+  parent: system.admin_config_development

@@ -1,0 +1,10 @@
+id: loan_calc_resource
+plugin_id: 'loan_calc_resource'
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

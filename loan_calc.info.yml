@@ -1,5 +1,5 @@
 name: Loan Calculator
-description: Calculates mortage loan amortization schedule.
+description: Calculates mortgage loan amortization schedule.
 
 type: module
 core: 8.x

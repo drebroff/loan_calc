@@ -46,7 +46,18 @@ class LoanCalcForm extends FormBase {
    * {@inheritdoc}.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    \Drupal::state()->set('loan_calc', $form_state->getValues());
+    $fields = array_keys(
+      $this->getFormDefinition()
+    );
+
+    foreach ($fields as $field) {
+      $values[$field] = $form_state->getValue($field);
+    }
+
+    if (!empty($values)) {
+      \Drupal::state()->set('loan_calc', $values);
+    }
+
     $form_state->setRedirect('loan_calc.page');
   }
 

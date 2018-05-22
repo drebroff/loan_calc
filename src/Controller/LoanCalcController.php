@@ -32,16 +32,17 @@ class LoanCalcController extends ControllerBase {
    * Action to display Loan Calculator page.
    */
   public function page() {
+    $values = array_values(
+      \Drupal::state()->get('loan_calc')
+    );
+
     return [
       'header' => [
         '#markup' => '<p>' . t('Enter loan values') . '</p>',
       ],
       'form' => \Drupal::formBuilder()->getForm('Drupal\loan_calc\Form\LoanCalcForm'),
-      'summary' => [
-        '#markup' => $this->loanCalcCalculus->summary(),
-      ],
-      'payments' => [
-        '#markup' => $this->loanCalcCalculus->payments()
+      'result' => [
+        '#markup' => '<pre>' . print_r($this->loanCalcCalculus->calculate(...$values), TRUE) . '</pre>',
       ],
     ];
   }

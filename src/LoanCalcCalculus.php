@@ -88,6 +88,13 @@ class LoanCalcCalculus {
         'end_bal',
         'cum_int'
       );
+
+      array_walk($payments[$pay_num], function (&$val, $idx) {
+        if ($idx != 'pay_num' && $idx != 'pay_date') {
+          $val = round($val, 2);
+        }
+      });
+
       $pay_num++;
       $beg_bal = $end_bal;
     }
@@ -102,6 +109,10 @@ class LoanCalcCalculus {
       'total_early_pmt',
       'total_int'
     );
+
+    array_walk($summary, function(&$value) {
+      $value = round($value, 2);
+    });
 
     return compact(
       'summary',

@@ -36,14 +36,34 @@ class LoanCalcController extends ControllerBase {
       \Drupal::state()->get('loan_calc')
     );
 
+    $table = [
+      '#type' => 'table',
+      '#header' => [
+        t('Pmt No.'),
+        t('Payment Date'),
+        t('Beginning Balance'),
+        t('Scheduled Payment'),
+        t('Extra Payment'),
+        t('Total Payment'),
+        t('Principal'),
+        t('Interest'),
+        t('Ending Balance'),
+        t('Cumulative Interest'),
+      ],
+      '#empty' => t('No values submitted yet.'),
+    ];
+
+    if (!empty($values)) {
+      $result = $this->loanCalcCalculus->calculate(...$values);
+      $table['#rows'] = $result['payments'] ?? [];
+    }
+
     return [
       'header' => [
         '#markup' => '<p>' . t('Enter loan values') . '</p>',
       ],
       'form' => \Drupal::formBuilder()->getForm('Drupal\loan_calc\Form\LoanCalcForm'),
-      'result' => [
-        '#markup' => '<pre>' . print_r($this->loanCalcCalculus->calculate(...$values), TRUE) . '</pre>',
-      ],
+      'table' => $table,
     ];
   }
 

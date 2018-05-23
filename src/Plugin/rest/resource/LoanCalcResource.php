@@ -87,11 +87,7 @@ class LoanCalcResource extends ResourceBase {
       return new ResourceResponse(['error' => '2']);
     }
 
-    $summary = array_map(function($value) {
-      return round($value, 2);
-    }, $result['summary']);
-
-    return (new ResourceResponse($summary))->addCacheableDependency(null);
+    return (new ResourceResponse($result['summary']))->addCacheableDependency(null);
   }
 
 }

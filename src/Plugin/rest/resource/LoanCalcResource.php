@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @RestResource(
  *   id = "loan_calc_resource",
- *   label = @Translation("Custom rest resource"),
+ *   label = @Translation("Loan Calc rest resource"),
  *   uri_paths = {
  *     "canonical" = "/api/loan-calc",
  *     "https://www.drupal.org/link-relations/create" = "/api/loan-calc"
@@ -74,19 +74,29 @@ class LoanCalcResource extends ResourceBase {
     );
 
     foreach ($fields as $field) {
-      $params[] = $this->currentRequest->get($field) ?? 0;
+      $params[$field] = $this->currentRequest->get($field) ?? 0;
     }
 
     if (empty($params)) {
-      return new ResourceResponse(['error' => '1']);
+      \Drupal::logger('loan_calc')->error('Loan Calc API error: No params.');
+      return (new ResourceResponse(['error' => '1']))->addCacheableDependency(null);
     }
 
-    $result = $this->loanCalcCalculus->calculate(...$params);
+    $values = array_values($params);
+    $result = $this->loanCalcCalculus->calculate(...$values);
 
     if (empty($result['summary'])) {
-      return new ResourceResponse(['error' => '2']);
+      \Drupal::logger('loan_calc')->error('Loam Calc API error: No summary.');
+      return (new ResourceResponse(['error' => '2']))->addCacheableDependency(null);
     }
 
+    \Drupal::logger('loan_calc')->info(
+      'Loan Calc API<br> <b>Request:</b> <br><pre>@request</pre>' .
+      '<br><b>Response:</b> <br><pre>@response</pre>', [
+        '@request' => print_r($params, TRUE),
+        '@response' => print_r($result['summary'], TRUE)
+      ]
+    );
     return (new ResourceResponse($result['summary']))->addCacheableDependency(null);
   }
 

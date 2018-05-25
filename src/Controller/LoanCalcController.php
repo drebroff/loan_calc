@@ -32,9 +32,11 @@ class LoanCalcController extends ControllerBase {
    * Action to display Loan Calculator page.
    */
   public function page() {
-    $values = array_values(
-      \Drupal::state()->get('loan_calc')
-    );
+    $state = \Drupal::state()->get('loan_calc')
+      ?? \Drupal::config('loan_calc.settings')->get('loan_calc')
+      ?? [];
+
+    $values = array_values($state);
 
     $table = [
       '#type' => 'table',

@@ -60,6 +60,13 @@ class LoanCalcConfigForm extends ConfigFormBase {
 
     $config->save();
 
+    $new_config = \Drupal::config('loan_calc.settings')->get('loan_calc');
+
+    \Drupal::logger('loan_calc')->notice(
+      'Loan Calculator defaults set to: <br><pre>@values</pre>',
+      ['@values' => print_r($new_config, TRUE)]
+    );
+
     parent::submitForm($form, $form_state);
   }
 

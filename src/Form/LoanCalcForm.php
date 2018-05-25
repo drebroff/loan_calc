@@ -56,6 +56,10 @@ class LoanCalcForm extends FormBase {
 
     if (!empty($values)) {
       \Drupal::state()->set('loan_calc', $values);
+      \Drupal::logger('loan_calc')->info(
+        'Loan Calculator values entered: <br><pre>@values</pre>',
+        ['@values' => print_r($values, TRUE)]
+      );
     }
 
     $form_state->setRedirect('loan_calc.page');
@@ -66,5 +70,6 @@ class LoanCalcForm extends FormBase {
    */
   public function resetFormHandler(array &$form, FormStateInterface $form_state) {
     \Drupal::state()->delete('loan_calc');
+    \Drupal::logger('loan_calc')->notice('Loan Calculator reset to defaults.');
   }
 }

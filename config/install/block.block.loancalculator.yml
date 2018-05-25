@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - loan_calc
+    - system
+  theme:
+    - bartik
+id: loancalculator
+theme: bartik
+region: sidebar_first
+weight: 0
+provider: null
+plugin: loan_calc_block
+settings:
+  id: loan_calc_block
+  label: 'Loan Calculator'
+  provider: loan_calc
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

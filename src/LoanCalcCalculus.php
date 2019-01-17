@@ -2,23 +2,26 @@
 
 namespace Drupal\loan_calc;
 
+/**
+ * Provides a loan calculation service.
+ */
 class LoanCalcCalculus {
 
   /**
    * Calculates mortgage loan amortization schedule.
    *
-   * @param $loan_amount
-   *   Loan Amount
-   * @param $interest_rate
-   *   Annual Interest Rate
-   * @param $loan_years
-   *   Loan Period in Years
-   * @param $num_pmt_per_year
-   *   Number of Payments Per Year
-   * @param $loan_start
-   *   Start Date of Loan
-   * @param int $scheduled_extra_payments [optional]
-   *   Optional Extra Payments
+   * @param int $loan_amount
+   *   Loan Amount.
+   * @param float $interest_rate
+   *   Annual Interest Rate.
+   * @param int $loan_years
+   *   Loan Period in Years.
+   * @param int $num_pmt_per_year
+   *   Number of Payments Per Year.
+   * @param string $loan_start
+   *   Start Date of Loan.
+   * @param int $scheduled_extra_payments
+   *   (optional) Optional Extra Payments.
    *
    * @return array
    *   Loan Amortization Schedule
@@ -29,8 +32,7 @@ class LoanCalcCalculus {
     $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
     $scheduled_monthly_payment =
       ($loan_amount * pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) * $rate_per_pmt) /
-      (pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) - 1)
-    ;
+      (pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) - 1);
 
     $sched_pay = $scheduled_monthly_payment;
     $beg_bal = $loan_amount;
@@ -40,11 +42,11 @@ class LoanCalcCalculus {
     $payments = [];
 
     while ($beg_bal > 0) {
-      // Payment Date
+      // Payment Date.
       $shift = $pay_num * 12 / $num_pmt_per_year;
       $pay_date = date('Y-m-d', strtotime("+{$shift} months", strtotime($loan_start)));
 
-      // Extra Payment
+      // Extra Payment.
       if ($sched_pay + $scheduled_extra_payments < $beg_bal) {
         $extra_pay = $scheduled_extra_payments;
       }
@@ -55,7 +57,7 @@ class LoanCalcCalculus {
         $extra_pay = 0;
       }
 
-      // Total Payment
+      // Total Payment.
       if ($sched_pay + $extra_pay < $beg_bal) {
         $total_pay = $sched_pay + $extra_pay;
       }
@@ -68,7 +70,7 @@ class LoanCalcCalculus {
       $princ = $total_pay - $int;
       $cum_int += $int;
 
-      // Ending Balance
+      // Ending Balance.
       if ($sched_pay + $extra_pay < $beg_bal) {
         $end_bal = $beg_bal - $princ;
       }
@@ -110,7 +112,7 @@ class LoanCalcCalculus {
       'total_int'
     );
 
-    array_walk($summary, function(&$value) {
+    array_walk($summary, function (&$value) {
       $value = round($value, 2);
     });
 

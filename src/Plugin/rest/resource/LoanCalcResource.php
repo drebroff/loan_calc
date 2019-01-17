@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Provides a loan calculator REST resource.
+ *
  * @RestResource(
  *   id = "loan_calc_resource",
  *   label = @Translation("Loan Calc rest resource"),
@@ -29,7 +31,22 @@ class LoanCalcResource extends ResourceBase {
   /**
    * LoanCalcResource constructor.
    *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
+   * @param array $serializer_formats
+   *   The available serialization formats.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   A logger instance.
    * @param \Drupal\loan_calc\LoanCalcCalculus $loanCalcCalculus
+   *   Loan calculation service.
+   * @param \Symfony\Component\HttpFoundation\Request $currentRequest
+   *   The request.
+   * @param \Drupal\Core\Config\ImmutableConfig $config
+   *   The configuration.
    */
   public function __construct(
     array $configuration,
@@ -56,7 +73,7 @@ class LoanCalcResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
+      $container->get('logger.factory')->get('loan_calc'),
       $container->get('loan_calc.calculus'),
       $container->get('request_stack')->getCurrentRequest(),
       $container->get('config.factory')->get('loan_calc.settings')
@@ -67,6 +84,7 @@ class LoanCalcResource extends ResourceBase {
    * Responds to entity GET requests.
    *
    * @return \Drupal\rest\ResourceResponse
+   *   The resource response.
    */
   public function get() {
     $fields = array_keys(
@@ -78,26 +96,31 @@ class LoanCalcResource extends ResourceBase {
     }
 
     if (empty($params)) {
-      \Drupal::logger('loan_calc')->error('Loan Calc API error: No params.');
-      return (new ResourceResponse(['error' => '1']))->addCacheableDependency(null);
+      $this->logger->error('Loan Calc API error: No params.');
+
+      return (new ResourceResponse(['error' => '1']))
+        ->addCacheableDependency(NULL);
     }
 
     $values = array_values($params);
     $result = $this->loanCalcCalculus->calculate(...$values);
 
     if (empty($result['summary'])) {
-      \Drupal::logger('loan_calc')->error('Loam Calc API error: No summary.');
-      return (new ResourceResponse(['error' => '2']))->addCacheableDependency(null);
+      $this->logger->error('Loam Calc API error: No summary.');
+
+      return (new ResourceResponse(['error' => '2']))
+        ->addCacheableDependency(NULL);
     }
 
-    \Drupal::logger('loan_calc')->info(
-      'Loan Calc API<br> <b>Request:</b> <br><pre>@request</pre>' .
-      '<br><b>Response:</b> <br><pre>@response</pre>', [
-        '@request' => print_r($params, TRUE),
-        '@response' => print_r($result['summary'], TRUE)
-      ]
+    $this->logger->info('Loan Calc API<br> <b>Request:</b> <br><pre>@request</pre>' .
+        '<br><b>Response:</b> <br><pre>@response</pre>', [
+          '@request' => print_r($params, TRUE),
+          '@response' => print_r($result['summary'], TRUE),
+        ]
     );
-    return (new ResourceResponse($result['summary']))->addCacheableDependency(null);
+
+    return (new ResourceResponse($result['summary']))
+      ->addCacheableDependency(NULL);
   }
 
 }

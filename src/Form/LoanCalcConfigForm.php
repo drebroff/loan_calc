@@ -5,28 +5,31 @@ namespace Drupal\loan_calc\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+/**
+ * Provides a loan calculator configuration form.
+ */
 class LoanCalcConfigForm extends ConfigFormBase {
 
   use LoanCalcFormTrait;
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function getFormId() {
     return 'loan_calc_config_form';
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
     return [
-      'loan_calc.settings'
+      'loan_calc.settings',
     ];
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('loan_calc.settings');
@@ -37,7 +40,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
 
     array_unshift($form, [
       'header' => [
-        '#markup' => '<p>' . t('Enter default Loan Calculator values:') . '</p>',
+        '#markup' => '<p>' . $this->t('Enter default Loan Calculator values:') . '</p>',
       ],
     ]);
 
@@ -45,7 +48,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = $this->configFactory->getEditable('loan_calc.settings');
@@ -54,15 +57,15 @@ class LoanCalcConfigForm extends ConfigFormBase {
       $this->getFormDefinition()
     );
 
-    array_walk($fields, function($field) use ($config, $form_state) {
+    array_walk($fields, function ($field) use ($config, $form_state) {
       $config->set("loan_calc.{$field}", $form_state->getValue($field));
     });
 
     $config->save();
 
-    $new_config = \Drupal::config('loan_calc.settings')->get('loan_calc');
+    $new_config = $this->config('loan_calc.settings')->get('loan_calc');
 
-    \Drupal::logger('loan_calc')->notice(
+    $this->logger('loan_calc')->notice(
       'Loan Calculator defaults set to: <br><pre>@values</pre>',
       ['@values' => print_r($new_config, TRUE)]
     );

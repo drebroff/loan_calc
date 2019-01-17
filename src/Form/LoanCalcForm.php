@@ -4,24 +4,52 @@ namespace Drupal\loan_calc\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\State\StateInterface;
 
+/**
+ * Provides a loan calculator form.
+ */
 class LoanCalcForm extends FormBase {
 
   use LoanCalcFormTrait;
 
+  protected $state;
+
   /**
-   * {@inheritdoc}.
+   * LoanCalcForm constructor.
+   *
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state storage service.
+   */
+  public function __construct(StateInterface $state) {
+    $this->state = $state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create($container) {
+    $form = new static(
+      $container->get('state')
+    );
+    $form->setStringTranslation($container->get('string_translation'));
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getFormId() {
     return 'loan_calc_form';
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $defaults = \Drupal::state()->get('loan_calc') ??
-      $this->config('loan_calc.settings')->get('loan_calc');
+    $defaults = $this->state->get('loan_calc') ??
+    $this->config('loan_calc.settings')
+      ->get('loan_calc');
 
     $form = $this->getFormDefinition($defaults);
 
@@ -35,7 +63,7 @@ class LoanCalcForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Reset'),
       '#submit' => [
-        '::resetFormHandler'
+        '::resetFormHandler',
       ],
     ];
 
@@ -43,7 +71,7 @@ class LoanCalcForm extends FormBase {
   }
 
   /**
-   * {@inheritdoc}.
+   * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $fields = array_keys(
@@ -55,8 +83,8 @@ class LoanCalcForm extends FormBase {
     }
 
     if (!empty($values)) {
-      \Drupal::state()->set('loan_calc', $values);
-      \Drupal::logger('loan_calc')->info(
+      $this->state->set('loan_calc', $values);
+      $this->logger('loan_calc')->info(
         'Loan Calculator values entered: <br><pre>@values</pre>',
         ['@values' => print_r($values, TRUE)]
       );
@@ -66,10 +94,12 @@ class LoanCalcForm extends FormBase {
   }
 
   /**
-   * Reset form values to defaults
+   * Reset form values to defaults.
    */
   public function resetFormHandler(array &$form, FormStateInterface $form_state) {
-    \Drupal::state()->delete('loan_calc');
-    \Drupal::logger('loan_calc')->notice('Loan Calculator reset to defaults.');
+    $this->state->delete('loan_calc');
+    $this->logger('loan_calc')
+      ->notice('Loan Calculator reset to defaults.');
   }
+
 }

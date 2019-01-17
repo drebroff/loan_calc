@@ -6,6 +6,9 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\loan_calc\LoanCalcCalculus;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Controller routines for Loan calculator routes.
+ */
 class LoanCalcController extends ControllerBase {
 
   protected $loanCalcCalculus;
@@ -14,6 +17,7 @@ class LoanCalcController extends ControllerBase {
    * LoanCalcController constructor.
    *
    * @param \Drupal\loan_calc\LoanCalcCalculus $loanCalcCalculus
+   *   Loan calculus service.
    */
   public function __construct(LoanCalcCalculus $loanCalcCalculus) {
     $this->loanCalcCalculus = $loanCalcCalculus;
@@ -32,8 +36,8 @@ class LoanCalcController extends ControllerBase {
    * Action to display Loan Calculator page.
    */
   public function page() {
-    $state = \Drupal::state()->get('loan_calc')
-      ?? \Drupal::config('loan_calc.settings')->get('loan_calc')
+    $state = $this->state()->get('loan_calc')
+      ?? $this->config('loan_calc.settings')->get('loan_calc')
       ?? [];
 
     $values = array_values($state);
@@ -41,18 +45,18 @@ class LoanCalcController extends ControllerBase {
     $table = [
       '#type' => 'table',
       '#header' => [
-        t('Pmt No.'),
-        t('Payment Date'),
-        t('Beginning Balance'),
-        t('Scheduled Payment'),
-        t('Extra Payment'),
-        t('Total Payment'),
-        t('Principal'),
-        t('Interest'),
-        t('Ending Balance'),
-        t('Cumulative Interest'),
+        $this->t('Pmt No.'),
+        $this->t('Payment Date'),
+        $this->t('Beginning Balance'),
+        $this->t('Scheduled Payment'),
+        $this->t('Extra Payment'),
+        $this->t('Total Payment'),
+        $this->t('Principal'),
+        $this->t('Interest'),
+        $this->t('Ending Balance'),
+        $this->t('Cumulative Interest'),
       ],
-      '#empty' => t('No values submitted yet.'),
+      '#empty' => $this->t('No values submitted yet.'),
     ];
 
     if (!empty($values)) {
@@ -62,9 +66,9 @@ class LoanCalcController extends ControllerBase {
 
     return [
       'header' => [
-        '#markup' => '<p>' . t('Enter loan values') . '</p>',
+        '#markup' => '<p>' . $this->t('Enter loan values') . '</p>',
       ],
-      'form' => \Drupal::formBuilder()->getForm('Drupal\loan_calc\Form\LoanCalcForm'),
+      'form' => $this->formBuilder()->getForm('Drupal\loan_calc\Form\LoanCalcForm'),
       'table' => $table,
     ];
   }

@@ -25,7 +25,6 @@ use Symfony\Component\HttpFoundation\Request;
 class LoanCalcResource extends ResourceBase {
 
   protected $loanCalcCalculus;
-  protected $currentRequest;
   protected $config;
 
   /**
@@ -43,8 +42,6 @@ class LoanCalcResource extends ResourceBase {
    *   A logger instance.
    * @param \Drupal\loan_calc\LoanCalcCalculusInterface $loanCalcCalculus
    *   Loan calculation service.
-   * @param \Symfony\Component\HttpFoundation\Request $currentRequest
-   *   The request.
    * @param \Drupal\Core\Config\ImmutableConfig $config
    *   The configuration.
    */
@@ -55,12 +52,10 @@ class LoanCalcResource extends ResourceBase {
     array $serializer_formats,
     LoggerInterface $logger,
     LoanCalcCalculusInterface $loanCalcCalculus,
-    Request $currentRequest,
     ImmutableConfig $config
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->loanCalcCalculus = $loanCalcCalculus;
-    $this->currentRequest = $currentRequest;
     $this->config = $config;
   }
 
@@ -75,7 +70,6 @@ class LoanCalcResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('loan_calc'),
       $container->get('loan_calc.calculus'),
-      $container->get('request_stack')->getCurrentRequest(),
       $container->get('config.factory')->get('loan_calc.settings')
     );
   }
@@ -83,16 +77,19 @@ class LoanCalcResource extends ResourceBase {
   /**
    * Responds to entity GET requests.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
    * @return \Drupal\rest\ResourceResponse
    *   The resource response.
    */
-  public function get() {
+  public function get(Request $request) {
     $fields = array_keys(
       $this->config->get('loan_calc')
     );
 
     foreach ($fields as $field) {
-      $params[$field] = $this->currentRequest->get($field) ?? 0;
+      $params[$field] = $request->get($field) ?? 0;
     }
 
     if (empty($params)) {
@@ -106,7 +103,7 @@ class LoanCalcResource extends ResourceBase {
     $result = $this->loanCalcCalculus->calculate(...$values);
 
     if (empty($result['summary'])) {
-      $this->logger->error('Loam Calc API error: No summary.');
+      $this->logger->error('Loan Calc API error: No summary.');
 
       return (new ResourceResponse(['error' => '2']))
         ->addCacheableDependency(NULL);

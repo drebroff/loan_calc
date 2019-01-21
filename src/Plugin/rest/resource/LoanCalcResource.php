@@ -3,7 +3,7 @@
 namespace Drupal\loan_calc\Plugin\rest\resource;
 
 use Drupal\Core\Config\ImmutableConfig;
-use Drupal\loan_calc\LoanCalcCalculus;
+use Drupal\loan_calc\LoanCalcCalculusInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -41,7 +41,7 @@ class LoanCalcResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
-   * @param \Drupal\loan_calc\LoanCalcCalculus $loanCalcCalculus
+   * @param \Drupal\loan_calc\LoanCalcCalculusInterface $loanCalcCalculus
    *   Loan calculation service.
    * @param \Symfony\Component\HttpFoundation\Request $currentRequest
    *   The request.
@@ -54,7 +54,7 @@ class LoanCalcResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    LoanCalcCalculus $loanCalcCalculus,
+    LoanCalcCalculusInterface $loanCalcCalculus,
     Request $currentRequest,
     ImmutableConfig $config
   ) {

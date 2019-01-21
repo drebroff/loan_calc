@@ -49,7 +49,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('form_builder'),
+      $container->get('form_builder')
     );
   }
 

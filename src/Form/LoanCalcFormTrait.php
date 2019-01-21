@@ -8,7 +8,7 @@ namespace Drupal\loan_calc\Form;
 trait LoanCalcFormTrait {
 
   /**
-   * Gets form defitinion.
+   * Gets a form definition.
    *
    * @param array|null $defaults
    *   (optional) The form defaults.

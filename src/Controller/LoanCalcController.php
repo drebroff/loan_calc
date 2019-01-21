@@ -3,7 +3,7 @@
 namespace Drupal\loan_calc\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\loan_calc\LoanCalcCalculus;
+use Drupal\loan_calc\LoanCalcCalculusInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -16,10 +16,10 @@ class LoanCalcController extends ControllerBase {
   /**
    * LoanCalcController constructor.
    *
-   * @param \Drupal\loan_calc\LoanCalcCalculus $loanCalcCalculus
+   * @param \Drupal\loan_calc\LoanCalcCalculusInterface $loanCalcCalculus
    *   Loan calculus service.
    */
-  public function __construct(LoanCalcCalculus $loanCalcCalculus) {
+  public function __construct(LoanCalcCalculusInterface $loanCalcCalculus) {
     $this->loanCalcCalculus = $loanCalcCalculus;
   }
 

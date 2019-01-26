@@ -17,7 +17,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     $total_int = 0;
     $actual_num_of_pmt = 0;
 
-    foreach ($this->getSchedule($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments) as $payment) {
+    foreach ($this->scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments) as $payment) {
       $payments[] = $payment;
       $actual_num_of_pmt++;
       $total_early_pmt += $payment['extra_pay'] ?? '';
@@ -43,7 +43,21 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     );
   }
 
-  protected function pmt($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt) {
+  /**
+   * Calculates a periodic payment amount by financial formula.
+   *
+   * @param $loan_amount
+   *   Loan Amount.
+   * @param $interest_rate
+   *   Annual Interest Rate.
+   * @param $num_pmt_per_year
+   *   Number of Payments Per Year.
+   * @param $scheduled_num_of_pmt
+   *   Scheduled Number of Payments.
+   *
+   * @return float|int
+   */
+  protected function paymentAmount($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt) {
     $rate_per_pmt = ($interest_rate / 100) / $num_pmt_per_year;
 
     $scheduled_monthly_payment =
@@ -53,15 +67,33 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     return $scheduled_monthly_payment;
   }
 
-  protected function getSchedule($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
+  /**
+   * Generates information for each scheduled payment.
+   *
+   * @param int $loan_amount
+   *   Loan Amount.
+   * @param float $interest_rate
+   *   Annual Interest Rate.
+   * @param int $loan_years
+   *   Loan Period in Years.
+   * @param int $num_pmt_per_year
+   *   Number of Payments Per Year.
+   * @param string $loan_start
+   *   Start Date of Loan.
+   * @param int $scheduled_extra_payments
+   *   (optional) Optional Extra Payments.
+   *
+   * @return \Generator
+   *   Payment information.
+   */
+  protected function scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
     $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
-    $sched_pay = $this->pmt($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt);
+    $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt);
 
     $beg_bal = (int) $loan_amount;
     $pay_num = 1;
     $cum_int = 0;
     $total_early_pmt = 0;
-    $payments = [];
 
     while ($beg_bal > 0) {
       // Payment Date.
@@ -101,7 +133,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
         $end_bal = 0;
       }
 
-      $payments[$pay_num] = compact(
+      $payment = compact(
         'pay_num',
         'pay_date',
         'beg_bal',
@@ -114,7 +146,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
         'cum_int'
       );
 
-      array_walk($payments[$pay_num], function (&$val, $idx) {
+      array_walk($payment, function (&$val, $idx) {
         if ($idx != 'pay_num' && $idx != 'pay_date') {
           $val = round($val, 2);
         }
@@ -122,9 +154,9 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
 
       $pay_num++;
       $beg_bal = $end_bal;
-    }
 
-    return $payments;
+      yield $payment;
+    }
   }
 
 }

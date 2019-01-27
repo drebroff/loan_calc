@@ -17,6 +17,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
+  /**
+   * The form builder service.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
   protected $formBuilder;
 
   /**

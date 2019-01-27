@@ -24,7 +24,18 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LoanCalcResource extends ResourceBase {
 
+  /**
+   * Loan calculation service.
+   *
+   * @var \Drupal\loan_calc\LoanCalcCalculusInterface
+   */
   protected $loanCalcCalculus;
+
+  /**
+   * The configuration.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
   protected $config;
 
   /**
@@ -100,9 +111,9 @@ class LoanCalcResource extends ResourceBase {
     }
 
     $values = array_values($params);
-    $result = $this->loanCalcCalculus->calculate(...$values);
+    $summary = $this->loanCalcCalculus->loanSummary(...$values);
 
-    if (empty($result['summary'])) {
+    if (empty($summary)) {
       $this->logger->error('Loan Calc API error: No summary.');
 
       return (new ResourceResponse(['error' => '2']))
@@ -112,11 +123,11 @@ class LoanCalcResource extends ResourceBase {
     $this->logger->info('Loan Calc API<br> <b>Request:</b> <br><pre>@request</pre>' .
         '<br><b>Response:</b> <br><pre>@response</pre>', [
           '@request' => print_r($params, TRUE),
-          '@response' => print_r($result['summary'], TRUE),
+          '@response' => print_r($summary, TRUE),
         ]
     );
 
-    return (new ResourceResponse($result['summary']))
+    return (new ResourceResponse($summary))
       ->addCacheableDependency(NULL);
   }
 

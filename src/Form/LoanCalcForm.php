@@ -13,6 +13,11 @@ class LoanCalcForm extends FormBase {
 
   use LoanCalcFormTrait;
 
+  /**
+   * The state storage service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
   protected $state;
 
   /**
@@ -95,6 +100,11 @@ class LoanCalcForm extends FormBase {
 
   /**
    * Reset form values to defaults.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
    */
   public function resetFormHandler(array &$form, FormStateInterface $form_state) {
     $this->state->delete('loan_calc');

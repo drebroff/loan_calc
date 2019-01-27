@@ -11,6 +11,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class LoanCalcController extends ControllerBase {
 
+  /**
+   * Loan calculus service.
+   *
+   * @var \Drupal\loan_calc\LoanCalcCalculusInterface
+   */
   protected $loanCalcCalculus;
 
   /**
@@ -60,8 +65,9 @@ class LoanCalcController extends ControllerBase {
     ];
 
     if (!empty($values)) {
-      $result = $this->loanCalcCalculus->calculate(...$values);
-      $table['#rows'] = $result['payments'] ?? [];
+      foreach ($this->loanCalcCalculus->scheduledPaymentInfo(...$values) as $payment) {
+        $table['#rows'][] = $payment;
+      }
     }
 
     return [

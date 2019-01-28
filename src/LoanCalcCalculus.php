@@ -43,9 +43,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    * {@inheritdoc}
    */
   public function scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
-    $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
-    $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt);
-
+    $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year);
     $beg_bal = (int) $loan_amount;
     $pay_num = 1;
     $cum_int = 0;
@@ -122,15 +120,16 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    *   Loan Amount.
    * @param float $interest_rate
    *   Annual Interest Rate.
+   * @param int $loan_years
+   *   Loan Period in Years.
    * @param int $num_pmt_per_year
    *   Number of Payments Per Year.
-   * @param int $scheduled_num_of_pmt
-   *   Scheduled Number of Payments.
    *
    * @return float
    *   Payment amount.
    */
-  protected function paymentAmount($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt) {
+  protected function paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year) {
+    $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
     $rate_per_pmt = ($interest_rate / 100) / $num_pmt_per_year;
 
     $scheduled_monthly_payment =

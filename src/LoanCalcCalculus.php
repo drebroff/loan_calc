@@ -17,7 +17,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     $total_int = 0;
     $total_early_pmt = 0;
 
-    foreach ($this->scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments) as $payment) {
+    foreach ($this->scheduledPaymentInfo(...func_get_args()) as $payment) {
       $scheduled_monthly_payment = $payment['sched_pay'] ?? 0;
       $actual_num_of_pmt++;
       $total_int = $payment['cum_int'] ?? 0;

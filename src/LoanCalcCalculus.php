@@ -118,16 +118,17 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
   /**
    * Calculates a periodic payment amount by financial formula.
    *
-   * @param $loan_amount
+   * @param int $loan_amount
    *   Loan Amount.
-   * @param $interest_rate
+   * @param float $interest_rate
    *   Annual Interest Rate.
-   * @param $num_pmt_per_year
+   * @param int $num_pmt_per_year
    *   Number of Payments Per Year.
-   * @param $scheduled_num_of_pmt
+   * @param int $scheduled_num_of_pmt
    *   Scheduled Number of Payments.
    *
-   * @return float|int
+   * @return float
+   *   Payment amount.
    */
   protected function paymentAmount($loan_amount, $interest_rate, $num_pmt_per_year, $scheduled_num_of_pmt) {
     $rate_per_pmt = ($interest_rate / 100) / $num_pmt_per_year;

@@ -54,4 +54,65 @@ class LoanCalcCalculusTest extends UnitTestCase {
     $this->assertEquals($expected, $actual);
   }
 
+  /**
+   * Data provider for testScheduledPaymentInfo().
+   *
+   * @return array
+   *   Array of test data:
+   *   - Expected assertion result.
+   *   - Arguments passed to method being tested.
+   */
+  public function provideTestScheduledPaymentInfo() {
+    return [
+      [
+        [
+          [
+            'pay_num' => 1,
+            'pay_date' => '2014-07-01',
+            'beg_bal' => 1000,
+            'sched_pay' => 254.71,
+            'extra_pay' => 300,
+            'total_pay' => 554.71,
+            'princ' => 547.21,
+            'int' => 7.5,
+            'end_bal' => 452.79,
+            'cum_int' => 7.5,
+          ],
+          [
+            'pay_num' => 2,
+            'pay_date' => '2015-01-01',
+            'beg_bal' => 452.79,
+            'sched_pay' => 254.71,
+            'extra_pay' => 198.09,
+            'total_pay' => 452.79,
+            'princ' => 449.4,
+            'int' => 3.4,
+            'end_bal' => 0,
+            'cum_int' => 10.9,
+          ],
+        ],
+        [1000, 1.5, 2, 2, '2014-01-01', 300],
+      ],
+    ];
+  }
+
+  /**
+   * Tests the scheduledPaymentInfo method.
+   *
+   * @param array $expected
+   *   Expected information of each scheduled payment.
+   * @param array $args
+   *   Arguments for testing method.
+   *
+   * @covers ::scheduledPaymentInfo
+   *
+   * @dataProvider provideTestScheduledPaymentInfo
+   */
+  public function testScheduledPaymentInfo(array $expected, array $args) {
+    $service = new LoanCalcCalculus();
+    foreach ($service->scheduledPaymentInfo(...$args) as $key => $actual) {
+      $this->assertArrayEquals($expected[$key], $actual);
+    }
+  }
+
 }

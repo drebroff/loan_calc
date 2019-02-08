@@ -127,8 +127,11 @@ class LoanCalcResource extends ResourceBase {
         ]
     );
 
-    return (new ResourceResponse($summary))
-      ->addCacheableDependency(NULL);
+    $response = new ResourceResponse($summary);
+    $response->getCacheableMetadata()
+      ->addCacheContexts(['url.query_args']);
+
+    return $response;
   }
 
 }

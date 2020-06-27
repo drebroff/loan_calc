@@ -38,6 +38,8 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
 
   /**
    * {@inheritdoc}
+   *
+   * @SuppressWarnings(PHPMD.ElseExpression)
    */
   public function scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
     $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year);

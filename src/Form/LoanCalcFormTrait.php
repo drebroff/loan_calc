@@ -17,6 +17,8 @@ trait LoanCalcFormTrait {
    *   An associative array containing the structure of the form.
    */
   private function getFormDefinition($defaults = NULL) {
+    $form = [];
+
     $form['loan_amount'] = [
       '#type' => 'number',
       '#title' => $this->t('Loan Amount'),

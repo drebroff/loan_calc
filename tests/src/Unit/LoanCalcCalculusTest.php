@@ -4,6 +4,7 @@ namespace Drupal\Tests\loan_calc\Unit;
 
 use Drupal\loan_calc\LoanCalcCalculus;
 use Drupal\Tests\UnitTestCase;
+use ReflectionMethod;
 
 /**
  * Tests a loan calculation service.
@@ -48,7 +49,7 @@ class LoanCalcCalculusTest extends UnitTestCase {
    */
   public function testPaymentAmount($expected, array $args) {
     $service = new LoanCalcCalculus();
-    $ref_method = new \ReflectionMethod($service, 'paymentAmount');
+    $ref_method = new ReflectionMethod($service, 'paymentAmount');
     $ref_method->setAccessible(TRUE);
     $actual = round($ref_method->invokeArgs($service, $args), 2);
     $this->assertEquals($expected, $actual);

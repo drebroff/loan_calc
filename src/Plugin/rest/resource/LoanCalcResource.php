@@ -99,6 +99,8 @@ class LoanCalcResource extends ResourceBase {
       $this->config->get('loan_calc')
     );
 
+    $params = [];
+
     foreach ($fields as $field) {
       $params[$field] = $request->get($field) ?? 0;
     }

@@ -83,6 +83,8 @@ class LoanCalcForm extends FormBase {
       $this->getFormDefinition()
     );
 
+    $values = [];
+
     foreach ($fields as $field) {
       $values[$field] = $form_state->getValue($field);
     }
@@ -105,6 +107,8 @@ class LoanCalcForm extends FormBase {
    *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
+   *
+   * @SuppressWarnings(PHPMD.UnusedFormalParameter)
    */
   public function resetFormHandler(array &$form, FormStateInterface $form_state) {
     $this->state->delete('loan_calc');

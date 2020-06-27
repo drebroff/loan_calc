@@ -32,11 +32,8 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
       'total_int'
     );
 
-    array_walk($summary, function (&$value) {
-      $value = round($value, 2);
-    });
-
-    return $summary;
+    // phpcs:ignore DrupalPractice.CodeAnalysis.VariableAnalysis.UndefinedVariable
+    return array_map(fn($value) => round($value, 2), $summary);
   }
 
   /**

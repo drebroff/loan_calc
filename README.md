@@ -10,4 +10,6 @@ REST API usage example:
 ```
 
 [![Build Status](https://www.travis-ci.org/phpistai/loan_calc.svg?branch=master)](https://www.travis-ci.org/phpistai/loan_calc)
+[![Drupal](https://img.shields.io/badge/Drupal-9-%2353B0EB "Supports Symfony 3.x")](https://drupal.org/9)
+![PHP from Travis config](https://img.shields.io/travis/php-v/phpistai/loan_calc)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)

@@ -8,3 +8,6 @@ REST API usage example:
     &loan_start=2014-01-01
     &scheduled_extra_payments=100
 ```
+
+[![Build Status](https://www.travis-ci.org/phpistai/loan_calc.svg?branch=master)](https://www.travis-ci.org/phpistai/loan_calc)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)

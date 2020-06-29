@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc;
 
 /**
@@ -10,7 +12,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
   /**
    * {@inheritdoc}
    */
-  public function loanSummary($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
+  public function loanSummary(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): array {
     $scheduled_monthly_payment = 0;
     $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
     $actual_num_of_pmt = 0;
@@ -41,7 +43,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    *
    * @SuppressWarnings(PHPMD.ElseExpression)
    */
-  public function scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0) {
+  public function scheduledPaymentInfo(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): \Generator {
     $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year);
     $beg_bal = (int) $loan_amount;
     $pay_num = 1;
@@ -127,7 +129,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    * @return float
    *   Payment amount.
    */
-  protected function paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year) {
+  protected function paymentAmount(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year): float {
     $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
     $rate_per_pmt = ($interest_rate / 100) / $num_pmt_per_year;
 

@@ -20,7 +20,7 @@
   "autoload-dev": {
     "psr-4": {
       "Drupal\\Tests\\": "vendor/drupal/core/tests/Drupal/Tests",
-      "Drupal\\Tests\\loan_calc\\": "tests"
+      "Drupal\\Tests\\loan_calc\\": "tests/src"
     }
   },
   "repositories": {

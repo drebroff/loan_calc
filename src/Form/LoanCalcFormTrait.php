@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Form;
 
 /**
@@ -10,13 +12,13 @@ trait LoanCalcFormTrait {
   /**
    * Gets a form definition.
    *
-   * @param array|null $defaults
+   * @param array $defaults
    *   (optional) The form defaults.
    *
    * @return array
    *   An associative array containing the structure of the form.
    */
-  private function getFormDefinition($defaults = NULL) {
+  private function getFormDefinition(array $defaults = []) {
     $form = [];
 
     $form['loan_amount'] = [

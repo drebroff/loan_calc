@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Plugin\rest\resource;
 
 use Drupal\Core\Config\ImmutableConfig;
@@ -29,14 +31,14 @@ class LoanCalcResource extends ResourceBase {
    *
    * @var \Drupal\loan_calc\LoanCalcCalculusInterface
    */
-  protected $loanCalcCalculus;
+  protected LoanCalcCalculusInterface $loanCalcCalculus;
 
   /**
    * The configuration.
    *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
-  protected $config;
+  protected ImmutableConfig $config;
 
   /**
    * LoanCalcResource constructor.
@@ -58,7 +60,7 @@ class LoanCalcResource extends ResourceBase {
    */
   public function __construct(
     array $configuration,
-    $plugin_id,
+    string $plugin_id,
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
@@ -73,7 +75,7 @@ class LoanCalcResource extends ResourceBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
     return new static(
       $configuration,
       $plugin_id,
@@ -94,7 +96,7 @@ class LoanCalcResource extends ResourceBase {
    * @return \Drupal\rest\ResourceResponse
    *   The resource response.
    */
-  public function get(Request $request) {
+  public function get(Request $request): ResourceResponse {
     $fields = array_keys(
       $this->config->get('loan_calc')
     );

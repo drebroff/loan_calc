@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\loan_calc\Form\LoanCalcForm;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,7 +25,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
    *
    * @var \Drupal\Core\Form\FormBuilderInterface
    */
-  protected $formBuilder;
+  protected FormBuilderInterface $formBuilder;
 
   /**
    * Constructs a new LoanCalcBlock object.
@@ -38,7 +41,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
    */
   public function __construct(
     array $configuration,
-    $plugin_id,
+    string $plugin_id,
     $plugin_definition,
     FormBuilderInterface $form_builder
   ) {
@@ -49,7 +52,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
     return new static(
       $configuration,
       $plugin_id,
@@ -61,8 +64,8 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
   /**
    * {@inheritdoc}
    */
-  public function build() {
-    return $this->formBuilder->getForm('Drupal\loan_calc\Form\LoanCalcForm');
+  public function build(): array {
+    return $this->formBuilder->getForm(LoanCalcForm::class);
   }
 
 }

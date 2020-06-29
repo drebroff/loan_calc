@@ -5,12 +5,15 @@
  * Install, update, and uninstall functions for the loan_calc module.
  */
 
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityStorageException;
 use Drupal\user\Entity\Role;
 
 /**
  * Implements hook_install().
  */
-function loan_calc_install($is_syncing) {
+function loan_calc_install(bool $is_syncing) {
   $role = Role::load('anonymous');
 
   if (!$role) {
@@ -18,5 +21,12 @@ function loan_calc_install($is_syncing) {
   }
 
   $role->grantPermission('restful get loan_calc_resource');
-  $role->save();
+  try {
+    $role->save();
+  }
+  catch (EntityStorageException $e) {
+    Drupal::logger('loan_calc')->warning('Failed to grant permission: %error%', [
+      '%error%' => $e->getMessage(),
+    ]);
+  }
 }

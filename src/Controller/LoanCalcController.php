@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\loan_calc\Form\LoanCalcForm;
 use Drupal\loan_calc\LoanCalcCalculusInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -16,7 +19,7 @@ class LoanCalcController extends ControllerBase {
    *
    * @var \Drupal\loan_calc\LoanCalcCalculusInterface
    */
-  protected $loanCalcCalculus;
+  protected LoanCalcCalculusInterface $loanCalcCalculus;
 
   /**
    * LoanCalcController constructor.
@@ -31,7 +34,7 @@ class LoanCalcController extends ControllerBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): self {
     return new static(
       $container->get('loan_calc.calculus')
     );
@@ -39,8 +42,11 @@ class LoanCalcController extends ControllerBase {
 
   /**
    * Action to display Loan Calculator page.
+   *
+   * @return array
+   *   Action response as render array.
    */
-  public function page() {
+  public function page(): array {
     $state = $this->state()->get('loan_calc')
       ?? $this->config('loan_calc.settings')->get('loan_calc')
       ?? [];
@@ -74,7 +80,7 @@ class LoanCalcController extends ControllerBase {
       'header' => [
         '#markup' => '<p>' . $this->t('Enter loan values') . '</p>',
       ],
-      'form' => $this->formBuilder()->getForm('Drupal\loan_calc\Form\LoanCalcForm'),
+      'form' => $this->formBuilder()->getForm(LoanCalcForm::class),
       'table' => $table,
     ];
   }

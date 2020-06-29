@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -15,14 +17,14 @@ class LoanCalcConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'loan_calc_config_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return [
       'loan_calc.settings',
     ];
@@ -31,7 +33,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $config = $this->config('loan_calc.settings');
 
     $form = $this->getFormDefinition(
@@ -50,7 +52,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $config = $this->configFactory->getEditable('loan_calc.settings');
 
     $fields = array_keys(

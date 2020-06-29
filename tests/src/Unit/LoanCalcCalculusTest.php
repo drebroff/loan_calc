@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\loan_calc\Unit;
 
 use Drupal\loan_calc\LoanCalcCalculus;
@@ -23,7 +25,7 @@ class LoanCalcCalculusTest extends UnitTestCase {
    *   - Expected assertion result.
    *   - Arguments passed to method being tested.
    */
-  public function provideTestPaymentAmount() {
+  public function provideTestPaymentAmount(): array {
     return [
       [0, [0, 1, 1, 1]],
       [1010, [1000, 1, 1, 1]],
@@ -47,7 +49,7 @@ class LoanCalcCalculusTest extends UnitTestCase {
    *
    * @dataProvider provideTestPaymentAmount
    */
-  public function testPaymentAmount($expected, array $args) {
+  public function testPaymentAmount(float $expected, array $args) {
     $service = new LoanCalcCalculus();
     $ref_method = new ReflectionMethod($service, 'paymentAmount');
     $ref_method->setAccessible(TRUE);
@@ -63,7 +65,7 @@ class LoanCalcCalculusTest extends UnitTestCase {
    *   - Expected assertion result.
    *   - Arguments passed to method being tested.
    */
-  public function provideTestScheduledPaymentInfo() {
+  public function provideTestScheduledPaymentInfo(): array {
     return [
       [
         [

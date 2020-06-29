@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\State\StateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a loan calculator form.
@@ -18,7 +21,7 @@ class LoanCalcForm extends FormBase {
    *
    * @var \Drupal\Core\State\StateInterface
    */
-  protected $state;
+  protected StateInterface $state;
 
   /**
    * LoanCalcForm constructor.
@@ -33,7 +36,7 @@ class LoanCalcForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public static function create($container) {
+  public static function create(ContainerInterface $container): self {
     $form = new static(
       $container->get('state')
     );
@@ -44,17 +47,17 @@ class LoanCalcForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'loan_calc_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    $defaults = $this->state->get('loan_calc') ??
-    $this->config('loan_calc.settings')
-      ->get('loan_calc');
+  public function buildForm(array $form, FormStateInterface $form_state): array {
+    $defaults = $this->state->get('loan_calc')
+      ?? $this->config('loan_calc.settings')->get('loan_calc')
+      ?? [];
 
     $form = $this->getFormDefinition($defaults);
 
@@ -78,7 +81,7 @@ class LoanCalcForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $fields = array_keys(
       $this->getFormDefinition()
     );
@@ -110,7 +113,7 @@ class LoanCalcForm extends FormBase {
    *
    * @SuppressWarnings(PHPMD.UnusedFormalParameter)
    */
-  public function resetFormHandler(array &$form, FormStateInterface $form_state) {
+  public function resetFormHandler(array &$form, FormStateInterface $form_state): void {
     $this->state->delete('loan_calc');
     $this->logger('loan_calc')
       ->notice('Loan Calculator reset to defaults.');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\loan_calc;
 
 /**
@@ -26,7 +28,7 @@ interface LoanCalcCalculusInterface {
    * @return array
    *   Loan Amortization Schedule
    */
-  public function loanSummary($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0);
+  public function loanSummary(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): array;
 
   /**
    * Generates information for each scheduled payment.
@@ -47,6 +49,6 @@ interface LoanCalcCalculusInterface {
    * @return \Generator
    *   Payment information.
    */
-  public function scheduledPaymentInfo($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year, $loan_start, $scheduled_extra_payments = 0);
+  public function scheduledPaymentInfo(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): \Generator;
 
 }

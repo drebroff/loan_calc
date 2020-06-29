@@ -7,6 +7,6 @@ before_script:
   - composer install --prefer-source --no-interaction
 
 script:
-  - vendor/bin/phpcs -s .
+  - vendor/bin/phpcs -s . --standard=phpcs.xml
   - vendor/bin/phpmd . text phpmd.xml
   - vendor/bin/phpunit ./tests

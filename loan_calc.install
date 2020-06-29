@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the loan_calc module.
+ */
+
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function loan_calc_install($is_syncing) {
+  $role = Role::load('anonymous');
+
+  if (!$role) {
+    return;
+  }
+
+  $role->grantPermission('restful get loan_calc_resource');
+  $role->save();
+}

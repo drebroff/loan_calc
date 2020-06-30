@@ -51,7 +51,7 @@ class LoanCalcController extends ControllerBase {
       ?? $this->config('loan_calc.settings')->get('loan_calc')
       ?? [];
 
-    $values = array_values($state);
+    $values = $this->loanCalcCalculus->extractArguments($state);
 
     $table = [
       '#type' => 'table',

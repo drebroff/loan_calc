@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\loan_calc\Plugin\rest\resource;
 
-use Drupal\Core\Config\ImmutableConfig;
 use Drupal\loan_calc\LoanCalcCalculusInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
@@ -34,13 +33,6 @@ class LoanCalcResource extends ResourceBase {
   protected LoanCalcCalculusInterface $loanCalcCalculus;
 
   /**
-   * The configuration.
-   *
-   * @var \Drupal\Core\Config\ImmutableConfig
-   */
-  protected ImmutableConfig $config;
-
-  /**
    * LoanCalcResource constructor.
    *
    * @param array $configuration
@@ -55,8 +47,6 @@ class LoanCalcResource extends ResourceBase {
    *   A logger instance.
    * @param \Drupal\loan_calc\LoanCalcCalculusInterface $loanCalcCalculus
    *   Loan calculation service.
-   * @param \Drupal\Core\Config\ImmutableConfig $config
-   *   The configuration.
    */
   public function __construct(
     array $configuration,
@@ -64,12 +54,10 @@ class LoanCalcResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    LoanCalcCalculusInterface $loanCalcCalculus,
-    ImmutableConfig $config
+    LoanCalcCalculusInterface $loanCalcCalculus
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->loanCalcCalculus = $loanCalcCalculus;
-    $this->config = $config;
   }
 
   /**
@@ -82,8 +70,7 @@ class LoanCalcResource extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('loan_calc'),
-      $container->get('loan_calc.calculus'),
-      $container->get('config.factory')->get('loan_calc.settings')
+      $container->get('loan_calc.calculus')
     );
   }
 
@@ -97,15 +84,7 @@ class LoanCalcResource extends ResourceBase {
    *   The resource response.
    */
   public function get(Request $request): ResourceResponse {
-    $fields = array_keys(
-      $this->config->get('loan_calc')
-    );
-
-    $params = [];
-
-    foreach ($fields as $field) {
-      $params[$field] = $request->get($field) ?? 0;
-    }
+    $params = $request->query->all();
 
     if (empty($params)) {
       $this->logger->error('Loan Calc API error: No params.');
@@ -114,7 +93,7 @@ class LoanCalcResource extends ResourceBase {
         ->addCacheableDependency(NULL);
     }
 
-    $values = array_values($params);
+    $values = $this->loanCalcCalculus->extractArguments($params);
     $summary = $this->loanCalcCalculus->loanSummary(...$values);
 
     if (empty($summary)) {

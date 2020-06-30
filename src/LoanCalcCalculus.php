@@ -4,10 +4,35 @@ declare(strict_types=1);
 
 namespace Drupal\loan_calc;
 
+use ReflectionMethod;
+
 /**
  * Provides a loan calculation service implementation.
  */
 class LoanCalcCalculus implements LoanCalcCalculusInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function extractArguments(array $input): array {
+    $method = new ReflectionMethod(__CLASS__, 'loanSummary');
+    $arguments = [];
+
+    foreach ($method->getParameters() as $argument) {
+      $value = $input[$argument->getName()] ?? '';
+
+      if (!$value) {
+        $arguments[] = 0;
+        continue;
+      }
+
+      $type = $argument->getType()->getName();
+      settype($value, $type);
+      $arguments[] = $value;
+    }
+
+    return $arguments;
+  }
 
   /**
    * {@inheritdoc}
@@ -44,7 +69,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    * @SuppressWarnings(PHPMD.ElseExpression)
    */
   public function scheduledPaymentInfo(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): \Generator {
-    $sched_pay = $this->paymentAmount($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year);
+    $sched_pay = $this->scheduledMonthlyPayment($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year);
     $beg_bal = (int) $loan_amount;
     $pay_num = 1;
     $cum_int = 0;
@@ -129,15 +154,12 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
    * @return float
    *   Payment amount.
    */
-  protected function paymentAmount(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year): float {
+  protected function scheduledMonthlyPayment(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year): float {
     $scheduled_num_of_pmt = $loan_years * $num_pmt_per_year;
     $rate_per_pmt = ($interest_rate / 100) / $num_pmt_per_year;
 
-    $scheduled_monthly_payment =
-      ($loan_amount * pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) * $rate_per_pmt) /
+    return ($loan_amount * pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) * $rate_per_pmt) /
       (pow(1 + $rate_per_pmt, $scheduled_num_of_pmt) - 1);
-
-    return $scheduled_monthly_payment;
   }
 
 }

@@ -51,7 +51,7 @@ class LoanCalcCalculusTest extends UnitTestCase {
    */
   public function testPaymentAmount(float $expected, array $args) {
     $service = new LoanCalcCalculus();
-    $ref_method = new ReflectionMethod($service, 'paymentAmount');
+    $ref_method = new ReflectionMethod($service, 'scheduledMonthlyPayment');
     $ref_method->setAccessible(TRUE);
     $actual = round($ref_method->invokeArgs($service, $args), 2);
     $this->assertEquals($expected, $actual);

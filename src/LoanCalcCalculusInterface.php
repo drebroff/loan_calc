@@ -10,6 +10,17 @@ namespace Drupal\loan_calc;
 interface LoanCalcCalculusInterface {
 
   /**
+   * Extracts formula argument values from input data.
+   *
+   * @param array $input
+   *   Input data as associative array.
+   *
+   * @return array
+   *   Numeric array of argument values in specific order and types.
+   */
+  public function extractArguments(array $input): array;
+
+  /**
    * Calculates mortgage loan amortization summary.
    *
    * @param int $loan_amount

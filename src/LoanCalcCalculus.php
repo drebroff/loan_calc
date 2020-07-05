@@ -19,13 +19,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     $arguments = [];
 
     foreach ($method->getParameters() as $argument) {
-      $value = $input[$argument->getName()] ?? '';
-
-      if (!$value) {
-        $arguments[] = 0;
-        continue;
-      }
-
+      $value = $input[$argument->getName()] ?? 0;
       $type = $argument->getType()->getName();
       settype($value, $type);
       $arguments[] = $value;

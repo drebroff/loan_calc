@@ -6,8 +6,8 @@ namespace Drupal\loan_calc\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Provides a loan calculator form.
@@ -17,20 +17,20 @@ class LoanCalcForm extends FormBase {
   use LoanCalcFormTrait;
 
   /**
-   * The state storage service.
+   * The session.
    *
-   * @var \Drupal\Core\State\StateInterface
+   * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
    */
-  protected StateInterface $state;
+  protected SessionInterface $session;
 
   /**
    * LoanCalcForm constructor.
    *
-   * @param \Drupal\Core\State\StateInterface $state
-   *   The state storage service.
+   * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session
+   *   The session.
    */
-  public function __construct(StateInterface $state) {
-    $this->state = $state;
+  public function __construct(SessionInterface $session) {
+    $this->session = $session;
   }
 
   /**
@@ -38,7 +38,7 @@ class LoanCalcForm extends FormBase {
    */
   public static function create(ContainerInterface $container): self {
     $form = new static(
-      $container->get('state')
+      $container->get('session')
     );
     $form->setStringTranslation($container->get('string_translation'));
     return $form;
@@ -55,9 +55,9 @@ class LoanCalcForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $defaults = $this->state->get('loan_calc')
-      ?? $this->config('loan_calc.settings')->get('loan_calc')
-      ?? [];
+    $defaults = $this->session->get('loan_calc')
+      ?: $this->config('loan_calc.settings')->get('loan_calc')
+      ?: [];
 
     $form = $this->getFormDefinition($defaults);
 
@@ -93,7 +93,7 @@ class LoanCalcForm extends FormBase {
     }
 
     if (!empty($values)) {
-      $this->state->set('loan_calc', $values);
+      $this->session->set('loan_calc', $values);
       $this->logger('loan_calc')->info(
         'Loan Calculator values entered: <br><pre>@values</pre>',
         ['@values' => print_r($values, TRUE)]
@@ -114,7 +114,7 @@ class LoanCalcForm extends FormBase {
    * @SuppressWarnings(PHPMD.UnusedFormalParameter)
    */
   public function resetFormHandler(array &$form, FormStateInterface $form_state): void {
-    $this->state->delete('loan_calc');
+    $this->session->remove('loan_calc');
     $this->logger('loan_calc')
       ->notice('Loan Calculator reset to defaults.');
   }

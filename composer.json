@@ -1,32 +1,32 @@
 {
-  "name": "drupal/loan_calc",
-  "type": "drupal-custom-module",
-  "description": "Calculates mortgage loan amortization schedule.",
-  "require": {
-    "php": "^7.4"
-  },
-  "require-dev": {
-    "drupal/core": "^9.0",
-    "drupal/coder": "^8.3",
-    "phpunit/phpunit": "^7.0",
-    "phpmd/phpmd": "^2.8",
-    "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Drupal\\loan_calc\\": "src"
+    "name": "drupal/loan_calc",
+    "type": "drupal-custom-module",
+    "description": "Calculates mortgage loan amortization schedule.",
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "drupal/core": "^9.0",
+        "drupal/coder": "^8.3",
+        "phpunit/phpunit": "^7.0",
+        "phpmd/phpmd": "^2.8",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\loan_calc\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\": "vendor/drupal/core/tests/Drupal/Tests",
+            "Drupal\\Tests\\loan_calc\\": "tests/src"
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Drupal\\Tests\\": "vendor/drupal/core/tests/Drupal/Tests",
-      "Drupal\\Tests\\loan_calc\\": "tests/src"
-    }
-  },
-  "repositories": {
-    "drupal": {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
-    }
-  }
 }

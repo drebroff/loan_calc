@@ -31,15 +31,11 @@ interface LoanCalcCalculusInterface {
    *   Loan Period in Years.
    * @param int $num_pmt_per_year
    *   Number of Payments Per Year.
-   * @param string $loan_start
-   *   Start Date of Loan.
-   * @param int $scheduled_extra_payments
-   *   (optional) Optional Extra Payments.
    *
    * @return array
    *   Loan Amortization Schedule
    */
-  public function loanSummary(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): array;
+  public function loanSummary(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year): array;
 
   /**
    * Generates information for each scheduled payment.
@@ -52,14 +48,14 @@ interface LoanCalcCalculusInterface {
    *   Loan Period in Years.
    * @param int $num_pmt_per_year
    *   Number of Payments Per Year.
-   * @param string $loan_start
-   *   Start Date of Loan.
-   * @param int $scheduled_extra_payments
-   *   (optional) Optional Extra Payments.
    *
    * @return \Generator
    *   Payment information.
    */
-  public function scheduledPaymentInfo(int $loan_amount, float $interest_rate, int $loan_years, int $num_pmt_per_year, string $loan_start, int $scheduled_extra_payments = 0): \Generator;
+  public function scheduledPaymentInfo(
+    int $loan_amount,
+    float $interest_rate,
+    int $loan_years,
+    int $num_pmt_per_year): \Generator;
 
 }

@@ -1,23 +1,21 @@
-# Loan Calculator module for Drupal (a.k.a. loan_calc)
+_# Loan Calculator module for Drupal (a.k.a. loan_calc)
 
 [UAB Baltic Amadeus](https://www.drupal.org/baltic-amadeus) challenge for wannabe drupalists.
-## Description (in Lithuanian)
+## The task:
 
-* Sukurti skaičiuoklę pagal pateiktą [xls failą](resources/loan_amortization_schedule.xls);
-* Pradinės reikšmės turi būti konfigūruojamos;
-* Laukelių pavadinimai taip pat turi būti konfigūruojami/verčiami (EN/LT);
-* Ateityje, pridėjus naują kalbą svetainėje, turi atsirasti ir visi nustatymų
-laukai šiai kalbai;
-* Pradiniai nustatymai turi atkeliauti kartu su nauju moduliu;
-* Skaičiuoklė turi būti pasiekiama ir kaip puslapis, ir kaip blokas;
-* Skaičiavimai turi būti atliekami serverio lygmenyje (po “Form submit”), ne JS;
-* Vartotojo skaičiavimai turi būti loginami;
-* Skaičiavimams turi būti panaudotas Drupal servisas;
-* Įvesties laukeliai turi būti validuojami;
-* Papildomai tūri būti sukurtas WEB servisas (REST), kuriam perdavus
-“Enter Values” reikšmes, būtų gražinamos “Loan Summary” reikšmės;
-* Drupal versija: 8.5;
-* Dizainas: Drupal bartik tema arba bootstrap.
+1. Create a simple calculator by the given excel file [xls failą](resources/Calculator.xlsx);
+2. Default values should be configurable through the administration page.
+3. All the texts should be translatable.
+4. (OPTIONAL) If a new language is added, settings fields for that language should appear.
+5. All initial settings should come together with a new module.
+6. Calculator should be available as a page and as a block (At least one of these).
+7. Calculations should be done after the AJAX form submit (Not JS).
+8. Additional REST service should be created. After the form submits, "Enter Values" should be sent, and "Loan Summary" calculated values returned.
+9. User usage of the calculator should be logged.
+10. Input fields should have validation.
+11. (OPTIONAL) The "Loan Amount" field for the user should be a slider done with JS.
+12. Drupal version: 8.9
+13. Final result should be a single module .zip file.
 
 ## Requirements
 
@@ -48,3 +46,4 @@ http://localhost:9000/api/loan-calc?_format=json
 [![Drupal](https://img.shields.io/badge/Drupal-9-%2353B0EB "Supports Symfony 3.x")](https://drupal.org/9)
 ![PHP from Travis config](https://img.shields.io/travis/php-v/phpistai/loan_calc)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+_

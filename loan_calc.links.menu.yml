@@ -7,4 +7,4 @@ loan_calc.admin:
   title: 'Loan Calculator settings'
   description: 'Configure Loan Calculator default values.'
   route_name: loan_calc.settings
-  parent: system.admin_config_development
+  parent: system.admin_config_system

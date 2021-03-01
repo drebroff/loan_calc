@@ -1,8 +1,6 @@
 # This file stores configuration defaults.
 loan_calc:
-  loan_amount: 50000
-  interest_rate: 3
-  loan_years: 10
+  loan_amount: 39999
+  interest_rate: 2
+  loan_years: 8
   num_pmt_per_year: 12
-  loan_start: '2014-01-01'
-  scheduled_extra_payments: 100

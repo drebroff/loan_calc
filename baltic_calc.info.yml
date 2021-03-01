@@ -1,0 +1,13 @@
+name: Loan Calculator for Baltic Amodeus
+description: Loan amortization schedule calculation..
+
+type: module
+core: 8.x
+core_version_requirement: ^8
+php: 7.4
+
+dependencies:
+  - drupal:block
+  - drupal:rest
+
+configure: baltic_calc.settings

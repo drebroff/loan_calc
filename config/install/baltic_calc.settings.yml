@@ -1,5 +1,5 @@
 # This file stores configuration defaults.
-loan_calc:
+baltic_calc:
   loan_amount: 39999
   interest_rate: 2
   loan_years: 8

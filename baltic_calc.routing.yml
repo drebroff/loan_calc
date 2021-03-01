@@ -1,0 +1,14 @@
+baltic_calc.page:
+  path: '/baltic-calc'
+  defaults:
+    _title: 'Mortgage Loan Payments'
+    _controller: '\Drupal\baltic_calc\Controller\BalticCalcController::page'
+  requirements:
+    _permission: 'access content'
+baltic_calc.settings:
+  path: '/admin/config/system/baltic-calc'
+  defaults:
+    _title: 'Loan Calculator settings'
+    _form: '\Drupal\baltic_calc\Form\BalticCalcConfigForm'
+  requirements:
+    _permission: 'administer site configuration'

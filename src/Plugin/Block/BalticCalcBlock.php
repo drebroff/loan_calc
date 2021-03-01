@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc\Plugin\Block;
+namespace Drupal\baltic_calc\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\loan_calc\Form\LoanCalcForm;
+use Drupal\baltic_calc\Form\BalticCalcForm;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a 'Loan calculator' block.
  *
  * @Block(
- *   id = "loan_calc_block",
+ *   id = "baltic_calc_block",
  *   admin_label = @Translation("Loan calculator"),
  * )
  */
-class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class BalticCalcBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * The form builder service.
@@ -28,7 +28,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
   protected FormBuilderInterface $formBuilder;
 
   /**
-   * Constructs a new LoanCalcBlock object.
+   * Constructs a new BalticCalcBlock object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -65,7 +65,7 @@ class LoanCalcBlock extends BlockBase implements ContainerFactoryPluginInterface
    * {@inheritdoc}
    */
   public function build(): array {
-    return $this->formBuilder->getForm(LoanCalcForm::class);
+    return $this->formBuilder->getForm(BalticCalcForm::class);
   }
 
 }

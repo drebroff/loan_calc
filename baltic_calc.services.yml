@@ -1,0 +1,3 @@
+services:
+  baltic_calc.calculus:
+    class: Drupal\baltic_calc\BalticCalcCalculus

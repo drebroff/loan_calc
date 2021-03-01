@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc;
+namespace Drupal\baltic_calc;
 
 /**
  * Provides a loan calculation service implementation.
  */
-class LoanCalcCalculus implements LoanCalcCalculusInterface {
+class BalticCalcCalculus implements BalticCalcCalculusInterface {
 
   /**
    * {@inheritdoc}
@@ -79,7 +79,7 @@ class LoanCalcCalculus implements LoanCalcCalculusInterface {
     float $interest_rate,
     int $loan_years,
     int $num_pmt_per_year): \Generator {
-    // @todo Implement scheduledPaymentInfo() method.
+    // @todo Implement scheduledPaymentInfo() method for more specific lalculation.
   }
 
 }

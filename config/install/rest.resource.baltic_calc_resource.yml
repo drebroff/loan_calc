@@ -1,5 +1,5 @@
-id: loan_calc_resource
-plugin_id: 'loan_calc_resource'
+id: baltic_calc_resource
+plugin_id: 'baltic_calc_resource'
 granularity: resource
 configuration:
   methods:

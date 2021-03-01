@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc\Form;
+namespace Drupal\baltic_calc\Form;
 
 use GuzzleHttp\ClientInterface;
 use Drupal\Core\Form\FormBase;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Provides a loan calculator form.
  */
-class LoanCalcForm extends FormBase {
+class BalticCalcForm extends FormBase {
 
   /**
    * Guzzle\Client instance.
@@ -22,7 +22,7 @@ class LoanCalcForm extends FormBase {
   protected $httpClient;
 
   /**
-   * LoanCalcForm constructor.
+   * BalticCalcForm constructor.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   Guzzle rest client.
@@ -48,7 +48,7 @@ class LoanCalcForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId(): string {
-    return 'loan_calc_form';
+    return 'baltic_calc_form';
   }
 
   /**
@@ -57,7 +57,7 @@ class LoanCalcForm extends FormBase {
    * @throws \GuzzleHttp\Exception\GuzzleException
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $defaults = $this->config('loan_calc.settings')->get('loan_calc')
+    $defaults = $this->config('baltic_calc.settings')->get('baltic_calc')
       ?: [];
 
     $form['#tree'] = TRUE;
@@ -248,7 +248,7 @@ class LoanCalcForm extends FormBase {
   public function calculationApiRequest($loan_amount, $interest_rate, $loan_years, $num_pmt_per_year): array {
     $host = \Drupal::request()->getSchemeAndHttpHost();
 
-    $request = $this->httpClient->request('GET', $host . '/api/loan-calc', [
+    $request = $this->httpClient->request('GET', $host . '/api/baltic-calc', [
       'query' => [
         '_format' => 'json',
         'loan_amount' => $loan_amount,

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc;
+namespace Drupal\baltic_calc;
 
 /**
  * Provides an interface for a loan calculation service.
  */
-interface LoanCalcCalculusInterface {
+interface BalticCalcCalculusInterface {
 
   /**
    * Extracts formula argument values from input data.

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install, update, and uninstall functions for the loan_calc module.
+ * Install, update, and uninstall functions for the baltic_calc module.
  */
 
 declare(strict_types=1);
@@ -13,19 +13,19 @@ use Drupal\user\Entity\Role;
 /**
  * Implements hook_install().
  */
-function loan_calc_install(bool $is_syncing) {
+function baltic_calc_install(bool $is_syncing) {
   $role = Role::load('anonymous');
 
   if (!$role) {
     return;
   }
 
-  $role->grantPermission('restful get loan_calc_resource');
+  $role->grantPermission('restful get baltic_calc_resource');
   try {
     $role->save();
   }
   catch (EntityStorageException $e) {
-    Drupal::logger('loan_calc')->warning('Failed to grant permission: %error%', [
+    Drupal::logger('baltic_calc')->warning('Failed to grant permission: %error%', [
       '%error%' => $e->getMessage(),
     ]);
   }

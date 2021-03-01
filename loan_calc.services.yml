@@ -1,3 +1,0 @@
-services:
-  loan_calc.calculus:
-    class: Drupal\loan_calc\LoanCalcCalculus

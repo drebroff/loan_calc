@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc\Controller;
+namespace Drupal\baltic_calc\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\loan_calc\Form\LoanCalcForm;
+use Drupal\baltic_calc\Form\BalticCalcForm;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Controller routines for Loan calculator routes.
  */
-class LoanCalcController extends ControllerBase {
+class BalticCalcController extends ControllerBase {
 
   /**
    * Action to display Loan Calculator page.
@@ -23,12 +23,12 @@ class LoanCalcController extends ControllerBase {
    *   Action response as render array.
    */
   public function page(Request $request): array {
-    $state = $request->getSession()->get('loan_calc')
-      ?: $this->config('loan_calc.settings')->get('loan_calc')
+    $state = $request->getSession()->get('baltic_calc')
+      ?: $this->config('baltic_calc.settings')->get('baltic_calc')
       ?: [];
 
     return [
-      'form' => $this->formBuilder()->getForm(LoanCalcForm::class),
+      'form' => $this->formBuilder()->getForm(BalticCalcForm::class),
     ];
   }
 

@@ -1,5 +1,0 @@
-vendor
-composer.*
-docker-compose.yml
-Dockerfile
-.*

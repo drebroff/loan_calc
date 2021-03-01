@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc\Plugin\rest\resource;
+namespace Drupal\baltic_calc\Plugin\rest\resource;
 
-use Drupal\loan_calc\LoanCalcCalculusInterface;
+use Drupal\baltic_calc\BalticCalcCalculusInterface;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -15,25 +15,25 @@ use Symfony\Component\HttpFoundation\Request;
  * Provides a loan calculator REST resource.
  *
  * @RestResource(
- *   id = "loan_calc_resource",
+ *   id = "baltic_calc_resource",
  *   label = @Translation("Loan Calc rest resource"),
  *   uri_paths = {
- *     "canonical" = "/api/loan-calc",
- *     "https://www.drupal.org/link-relations/create" = "/api/loan-calc"
+ *     "canonical" = "/api/baltic-calc",
+ *     "https://www.drupal.org/link-relations/create" = "/api/baltic-calc"
  *   }
  * )
  */
-class LoanCalcResource extends ResourceBase {
+class BalticCalcResource extends ResourceBase {
 
   /**
    * Loan calculation service.
    *
-   * @var \Drupal\loan_calc\LoanCalcCalculusInterface
+   * @var \Drupal\baltic_calc\BalticCalcCalculusInterface
    */
-  protected LoanCalcCalculusInterface $loanCalcCalculus;
+  protected BalticCalcCalculusInterface $BalticCalcCalculus;
 
   /**
-   * LoanCalcResource constructor.
+   * BalticCalcResource constructor.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -45,7 +45,7 @@ class LoanCalcResource extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
-   * @param \Drupal\loan_calc\LoanCalcCalculusInterface $loanCalcCalculus
+   * @param \Drupal\baltic_calc\BalticCalcCalculusInterface $BalticCalcCalculus
    *   Loan calculation service.
    */
   public function __construct(
@@ -54,10 +54,10 @@ class LoanCalcResource extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
-    LoanCalcCalculusInterface $loanCalcCalculus
+    BalticCalcCalculusInterface $BalticCalcCalculus
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
-    $this->loanCalcCalculus = $loanCalcCalculus;
+    $this->BalticCalcCalculus = $BalticCalcCalculus;
   }
 
   /**
@@ -69,8 +69,8 @@ class LoanCalcResource extends ResourceBase {
       $plugin_id,
       $plugin_definition,
       $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('loan_calc'),
-      $container->get('loan_calc.calculus')
+      $container->get('logger.factory')->get('baltic_calc'),
+      $container->get('baltic_calc.calculus')
     );
   }
 
@@ -93,8 +93,8 @@ class LoanCalcResource extends ResourceBase {
         ->addCacheableDependency(NULL);
     }
 
-    $values = $this->loanCalcCalculus->extractArguments($params);
-    $summary = $this->loanCalcCalculus->loanSummary(...$values);
+    $values = $this->BalticCalcCalculus->extractArguments($params);
+    $summary = $this->BalticCalcCalculus->loanSummary(...$values);
 
     if (empty($summary)) {
       $this->logger->error('Loan Calc API error: No summary.');

@@ -1,12 +1,12 @@
 {
-    "name": "drupal/loan_calc",
+    "name": "drupal/baltic_calc",
     "type": "drupal-custom-module",
-    "description": "Calculates mortgage loan amortization schedule.",
+    "description": "Loan amortization schedule calculation.",
     "require": {
         "php": "^7.4"
     },
     "require-dev": {
-        "drupal/core": "^9.0",
+        "drupal/core": "^8.9",
         "drupal/coder": "^8.3",
         "phpunit/phpunit": "^7.0",
         "phpmd/phpmd": "^2.8",
@@ -14,13 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Drupal\\loan_calc\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Drupal\\Tests\\": "vendor/drupal/core/tests/Drupal/Tests",
-            "Drupal\\Tests\\loan_calc\\": "tests/src"
+            "Drupal\\baltic_calc\\": "src"
         }
     },
     "repositories": {

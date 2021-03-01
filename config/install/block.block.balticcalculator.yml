@@ -2,20 +2,20 @@ langcode: en
 status: true
 dependencies:
   module:
-    - loan_calc
+    - baltic_calc
     - system
   theme:
     - bartik
-id: loancalculator
+id: balticcalculator
 theme: bartik
 region: sidebar_first
 weight: 0
 provider: null
-plugin: loan_calc_block
+plugin: baltic_calc_block
 settings:
-  id: loan_calc_block
+  id: baltic_calc_block
   label: 'Loan Calculator'
-  provider: loan_calc
+  provider: baltic_calc
   label_display: visible
 visibility:
   request_path:

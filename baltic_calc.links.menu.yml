@@ -1,0 +1,10 @@
+baltic_calc.page:
+  title: 'Baltic Calculator'
+  description: 'Baltic Calculator page'
+  route_name: baltic_calc.page
+  menu_name: main
+baltic_calc.admin:
+  title: 'Baltic Calculator settings'
+  description: 'Configure Baltic Calculator default values.'
+  route_name: baltic_calc.settings
+  parent: system.admin_config_system

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\loan_calc\Form;
+namespace Drupal\baltic_calc\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -10,13 +10,13 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Provides a loan calculator configuration form.
  */
-class LoanCalcConfigForm extends ConfigFormBase {
+class BalticCalcConfigForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
    */
   public function getFormId(): string {
-    return 'loan_calc_config_form';
+    return 'baltic_calc_config_form';
   }
 
   /**
@@ -24,7 +24,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames(): array {
     return [
-      'loan_calc.settings',
+      'baltic_calc.settings',
     ];
   }
 
@@ -32,7 +32,7 @@ class LoanCalcConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-    $defaults = $this->config('loan_calc.settings')->get('loan_calc')
+    $defaults = $this->config('baltic_calc.settings')->get('baltic_calc')
       ?: [];
 
     $form['loan_amount'] = [
@@ -86,21 +86,21 @@ class LoanCalcConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    $config = $this->configFactory->getEditable('loan_calc.settings');
+    $config = $this->configFactory->getEditable('baltic_calc.settings');
 
     $fields = array_keys(
       $form
     );
 
     array_walk($fields, function ($field) use ($config, $form_state) {
-      $config->set("loan_calc.{$field}", $form_state->getValue($field));
+      $config->set("baltic_calc.{$field}", $form_state->getValue($field));
     });
 
     $config->save();
 
-    $new_config = $this->config('loan_calc.settings')->get('loan_calc');
+    $new_config = $this->config('baltic_calc.settings')->get('baltic_calc');
 
-    $this->logger('loan_calc')->notice(
+    $this->logger('baltic_calc')->notice(
       'Loan Calculator defaults set to: <br><pre>@values</pre>',
       ['@values' => print_r($new_config, TRUE)]
     );
